@@ -1,0 +1,62 @@
+<?php
+$host = 'localhost';
+$user = 'root';
+$password = '';
+$database = 'aeroporto';
+
+$conn = new mysqli($host, $user, $password, $database);
+
+if ($conn->connect_error) {
+    die("Connessione fallita: " . $conn->connect_error);
+}
+
+$sql = "SELECT * FROM flights";
+$result = $conn->query($sql);
+
+$flights = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $flights[] = $row;
+    }
+}
+
+$conn->close();
+?>
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aeroporto</title>
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+    <h1>Gestione Voli Aeroporto</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Codice Volo</th>
+                <th>Partenza</th>
+                <th>Arrivo</th>
+                <th>Aereo</th>
+                <th>Passeggeri</th>
+                <th>Max Passeggeri</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($flights as $flight): ?>
+            <tr>
+                <td><?= $flight['id'] ?></td>
+                <td><?= $flight['flight_code'] ?></td>
+                <td><?= $flight['departure_time'] ?></td>
+                <td><?= $flight['arrival_time'] ?></td>
+                <td><?= $flight['airplane_id'] ?></td>
+                <td><?= $flight['passengers'] ?></td>
+                <td><?= $flight['max_passengers'] ?></td>
+            </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</body>
+</html>
