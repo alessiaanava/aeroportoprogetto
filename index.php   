@@ -1,0 +1,27 @@
+<?php
+$host = '127.0.0.1';
+$user = 'root';
+$password = '';
+$database = 'aeroporto';
+
+// Connessione al database
+$conn = new mysqli($host, $user, $password, $database);
+
+// Verifica della connessione
+if ($conn->connect_error) {
+    die("Connessione fallita: " . $conn->connect_error);
+}
+
+$sql = "SELECT * FROM flights";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        echo "<p>Volo: " . $row['flight_code'] . " Partenza: " . $row['departure_time'] . "</p>";
+    }
+} else {
+    echo "<p>Nessun volo disponibile</p>";
+}
+
+$conn->close();
+?>

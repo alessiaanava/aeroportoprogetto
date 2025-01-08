@@ -1,0 +1,29 @@
+{
+    "name": "Gestione Aeroporto",
+    "dockerFile": "Dockerfile",
+    "forwardPorts": [8000],
+    "postCreateCommand": "composer install",
+    "features": {
+      "ghcr.io/devcontainers/features/php:1": {
+        "version": "8.2",
+        "composer": true
+      },
+      "ghcr.io/devcontainers/features/mysql:1": {
+        "version": "8.0",
+        "initialDatabases": "aeroporto"
+      }
+    },
+    "customizations": {
+      "vscode": {
+        "settings": {
+          "php.validate.executablePath": "/usr/local/bin/php"
+        },
+        "extensions": [
+          "bmewburn.vscode-intelephense-client",
+          "mrmlnc.vscode-duplicate",
+          "formulahendry.auto-rename-tag"
+        ]
+      }
+    }
+  }
+  

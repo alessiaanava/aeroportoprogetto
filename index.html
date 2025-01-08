@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestione Voli Aeroporto</title>
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+    <h1>Gestione Voli Aeroporto</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Codice Volo</th>
+                <th>Partenza</th>
+                <th>Arrivo</th>
+                <th>Aereo</th>
+                <th>Passeggeri</th>
+                <th>Max Passeggeri</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            $host = '127.0.0.1';
+            $user = 'root';
+            $password = '';
+            $database = 'aeroporto';
+
+            // Connessione al database
+            $conn = new mysqli($host, $user, $password, $database);
+
+            // Verifica della connessione
+            if ($conn->connect_error) {
+                die("Connessione fallita: " . $conn->connect_error);
+            }
+
+            $sql = "SELECT * FROM flights";
+            $result = $conn->query($sql);
+
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo "<tr>
+                        <td>{$row['id']}</td>
+                        <td>{$row['flight_code']}</td>
+                        <td>{$row['departure_time']}</td>
+                        <td>{$row['arrival_time']}</td>
+                        <td>{$row['airplane_id']}</td>
+                        <td>{$row['passengers']}</td>
+                        <td>{$row['max_passengers']}</td>
+                    </tr>";
+                }
+            } else {
+                echo "<tr><td colspan='7'>Nessun volo disponibile</td></tr>";
+            }
+
+            $conn->close();
+            ?>
+        </tbody>
+    </table>
+</body>
+</html>
